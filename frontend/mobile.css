@@ -1,0 +1,408 @@
+/* mobile.css - CITADEL Responsive Layout for Android APK (360px-430px) */
+
+@media (max-width: 768px) {
+  /* Global Resets */
+  body, .app-container {
+    overflow-x: hidden !important;
+    width: 100vw;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+  }
+  
+  /* Navbar */
+  .navbar {
+    padding: 0.5rem 1rem !important;
+    height: auto !important;
+    min-height: 60px;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    position: relative !important;
+    z-index: 1000 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+  }
+  .nav-brand {
+    font-size: 1.2rem !important;
+  }
+  .offline-status {
+    font-size: 0.6rem !important;
+    padding: 0.15rem 0.35rem !important;
+    margin-left: 0 !important;
+    margin-top: 0.5rem;
+  }
+
+  .mobile-menu-toggle {
+    display: block !important;
+    background: none;
+    border: none;
+    color: var(--color-text-dark, #0f172a);
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .nav-links {
+    display: none !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff !important;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  }
+  
+  .nav-links.mobile-open {
+    display: flex !important;
+  }
+  
+  .nav-links a {
+    width: 100%;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    color: var(--color-text-dark, #0f172a) !important;
+  }
+
+  /* Make glass panels fully opaque on mobile */
+  .glass-panel {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  }
+
+  /* Onboarding Flow & Progress */
+  .onboarding-container {
+    padding-top: 60px !important; /* Space for navbar */
+    overflow-x: hidden;
+  }
+  .progress-indicator {
+    padding: 12px 10px !important;
+  }
+  .progress-step span {
+    display: none;
+  }
+  .onboarding-content {
+    padding: 16px !important;
+    margin: 10px !important;
+    border-radius: 12px !important;
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+  .step-heading {
+    font-size: 1.5rem !important;
+  }
+  .step-subheading {
+    font-size: 1rem !important;
+  }
+  
+  /* Location Selection */
+  .location-selection {
+    flex-direction: column !important;
+  }
+  .map-placeholder {
+    height: 150px !important;
+    margin-top: 15px !important;
+  }
+  .location-card {
+    padding: 15px !important;
+  }
+
+  /* Options Grid (Selection Cards) */
+  .options-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .selection-card {
+    padding: 15px !important;
+  }
+
+  /* Secondary Questions (Pill Buttons) */
+  .secondary-question {
+    padding: 15px !important;
+  }
+  .pill-group {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+  .pill-btn {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+    padding: 10px 15px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Designer Layout (3D + Config) */
+  .designer-layout {
+    flex-direction: column !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    padding-top: 60px !important;
+  }
+  
+  /* 3D Scene Viewport */
+  .preview-pane {
+    position: relative !important;
+    height: auto !important;
+    min-height: 500px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .preview-pane canvas, .preview-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+  
+  /* Overlays on 3D Scene */
+  .shelter-preview-wrapper {
+    min-height: auto !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+  
+  .shelter-canvas-container {
+    height: 45vh !important;
+    min-height: 250px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+  }
+  
+  .shelter-controls-container {
+    background: #ffffff;
+    height: 55vh !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+  }
+  
+  .shelter-controls-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    align-items: center !important;
+  }
+
+  .heat-balance-panel, .solar-info-panel, .structure-toggle {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    z-index: 1 !important;
+  }
+  
+  .solar-info-panel {
+    transform: none !important;
+    margin-bottom: 0 !important;
+  }
+
+  .preview-overlay {
+    padding: 10px !important;
+    align-items: flex-start !important;
+  }
+  .preview-badge {
+    font-size: 0.75rem !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Config Pane */
+  .config-pane {
+    flex: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 55vh !important;
+  }
+  .config-header {
+    padding: 15px !important;
+  }
+  .config-scroll-area {
+    padding: 15px !important;
+  }
+  
+  /* Materials Grid */
+  .materials-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Results Dashboard */
+  .final-results-container {
+    padding: 1rem 0.5rem !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+  }
+  .results-header h1 {
+    font-size: 1.5rem !important;
+  }
+  .results-header p {
+    font-size: 0.9rem !important;
+  }
+  
+  .analysis-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .metric-value {
+    font-size: 1.25rem !important;
+  }
+  
+  .opt-header .section-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .opt-candidates-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .candidate-card {
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  
+  .candidate-header h3 {
+    font-size: 1rem !important;
+  }
+  
+  .candidate-header .score {
+    font-size: 1.25rem !important;
+  }
+  
+  .mc-values {
+    font-size: 0.75rem !important;
+  }
+  
+  .mc-label {
+    font-size: 0.8rem !important;
+  }
+  
+  .tech-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .chart-container {
+    height: 250px !important;
+  }
+  
+  .chart-legend {
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Legacy Results Dashboard (if still used) */
+  .results-layout {
+    padding-top: 60px !important;
+  }
+  .results-header {
+    padding: 15px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .results-header h2 {
+    font-size: 1.5rem !important;
+  }
+  .result-cards-container {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    padding: 0 15px !important;
+  }
+  .results-visual-container {
+    padding: 15px !important;
+  }
+  .results-visual {
+    height: 250px !important;
+    min-height: 250px !important;
+  }
+
+  /* Actions & Buttons */
+  .results-actions, .step-actions, .final-actions {
+    padding: 15px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .btn-primary, .btn-secondary, .large-btn, .full-width {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Hero Section Overrides */
+  .hero {
+    padding-top: 40px !important;
+    min-height: auto !important;
+    padding-bottom: 40px !important;
+  }
+  .hero-content {
+    padding: 24px !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .hero-title {
+    font-size: 2.5rem !important;
+  }
+  .hero-actions {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  
+  /* Cards & General Containers */
+  .features-section, .how-it-works, .trust-section {
+    padding: 40px 5% !important;
+    flex-direction: column !important;
+  }
+  .feature-card {
+    width: 100% !important;
+    box-sizing: border-box;
+    min-width: 0 !important;
+  }
+  .flow-container {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  .flow-arrow {
+    transform: rotate(90deg) !important;
+  }
+  .trust-text {
+    font-size: 1.5rem !important;
+    text-align: center;
+  }
+  
+  /* Forms / Inputs */
+  input, select, textarea {
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  .slider-container {
+    padding: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra tweaks for very small screens (360px) */
+  .hero-title {
+    font-size: 2rem !important;
+  }
+  .nav-brand {
+    font-size: 1rem !important;
+  }
+  .pill-btn {
+    flex: 1 1 100% !important; /* Stack pills fully on 360px */
+  }
+}

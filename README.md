@@ -1,32 +1,190 @@
-# React + TypeScript + Vite
+# CITADEL
+**Climate-Informed, Physics-Driven, Design-Ready**
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+CITADEL is an area-specific shelter design and thermal evaluation platform that connects local climate conditions with parametric architectural design and physics-based thermal analysis. By simulating environmental interactions locally on your device, it provides immediate insights into how different materials, geometries, and orientations will perform in the real world.
 
-Currently, two official plugins are available:
+## Problem Statement
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Generic, mass-produced shelters are often deployed without consideration for regional climate variations, leading to poor habitability.
+* Solar radiation, ambient conditions, orientation, materials, insulation, and openings directly influence the thermal comfort of occupants.
+* Designing passive, area-specific shelters can significantly reduce thermal losses, mitigate excessive solar gain, and minimize the dependence on external heating or cooling systems.
+* **SIH26051:** *Software Based Model Development for Design of Area Specific Shelter for Thermal Comfort Maintenance.*
 
-## React Compiler
+## Solution
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+CITADEL provides an intuitive, end-to-end location-to-design workflow:
 
-## Expanding the Oxlint configuration
+`Location` → `Climate Parameters` → `Shelter Requirements` → `Parametric Design` → `Thermal Simulation` → `Comparison` → `Optimization` → `Design Report`
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+By evaluating the exact physical properties of user-defined constraints (materials, footprint, occupancy) against regional offline climate profiles, CITADEL computes a realistic thermal balance and comfort score, ultimately recommending an optimized structural configuration.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Key Features
+
+- **Location-Aware Context:** Input manual coordinates or use device location to anchor the design context.
+- **Climate Profiles:** Selection of robust local climate data (Temperature, Solar Radiation, Humidity).
+- **Parametric Shelter Design:** Interactive configuration for:
+  - Multiple shelter geometries (A-Frame, Box, Dome, Gable Roof).
+  - Material and insulation configurations (Wood, Insulated Panels, Stone, etc. and variable thickness).
+  - Window/opening sizing and directional orientation.
+  - Structural shape and occupancy requirements.
+- **3D Visualization:** Real-time 3D shelter preview using React Three Fiber.
+- **Physics-Based Thermal Analysis:**
+  - Hourly 24-hour thermal behavior simulation.
+  - Granular calculations for solar exposure (roof, walls, windows), internal heat balance, and structural thermal mass.
+- **Comparison & Optimization:** Evaluates the active design against the built-in optimization engine and locally saved designs under the same climate constraints.
+- **Offline-First PWA:** fully functional without internet access via service workers.
+- **Android Support:** Mobile APK generation using Capacitor.
+- **Local Persistence:** Designs are saved securely to local storage.
+- **Offline HTML Reports:** Generate and download detailed thermal analysis reports natively on the device.
+
+## Technical Architecture
+
+```text
+       User Interface (React + TypeScript)
+                     ↓
+           Shelter Configuration
+                     ↓
+          Climate / Material Data
+                     ↓
+  Thermal Physics Engine (TypeScript 1D RC Network)
+                     ↓
+       Hourly Thermal & Comfort Results
+                     ↓
+          Comparison / Optimization
+                     ↓
+        Offline Local Report Export
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+> **Note:** The current thermal calculations are driven entirely by an integrated TypeScript physics engine. There is no ML (e.g., XGBoost) or Python-based numerical processing (e.g., NumPy/SciPy) actively integrated into this repository's runtime.
+
+## Technology Stack
+
+- **Frontend:** React 19, TypeScript, Vite
+- **Thermal/Scientific Computing:** Custom TypeScript Physics Engine (1D RC Network)
+- **Data Storage:** LocalStorage API
+- **Visualization:** Three.js, React Three Fiber, React Three Drei, Recharts (for thermal plotting)
+- **Mobile/Deployment:** Vite PWA, Capacitor Android
+- **Styling & UI:** Pure CSS, Lucide React (Icons)
+
+## Thermal Model
+
+CITADEL utilizes a time-step based 1D Resistance-Capacitance (RC) network thermal engine. Key factors modeled include:
+- **Thermal Capacitance:** Based on structural volume and material density/mass.
+- **Solar Gain:** Calculated dynamically based on solar altitude, azimuth, and wall/roof incidence angles.
+- **Conductive Heat Loss:** Using defined material U-values and insulation thickness (R-values).
+- **Window/Opening Dynamics:** Heat transfer through transparent surfaces considering SHGC (Solar Heat Gain Coefficient).
+- **Ventilation:** Heat exchange based on Air Changes per Hour (ACH).
+- **Internal Heat Gain:** Sensible heat generated by occupants based on activity levels.
+
+## Offline-First Architecture
+
+CITADEL is designed for austere environments with zero reliance on cloud computing:
+- **PWA & Service Workers:** All assets (HTML, CSS, JS, fonts, 3D assets) are locally bundled and cached via Vite PWA.
+- **Local Data & Climate:** Climate profiles and material constraints are bundled locally. (Live online weather fetching is not implemented).
+- **LocalStorage:** User designs and preferences are persisted strictly on the device.
+- **Capacitor Integration:** Natively wraps the PWA into an Android APK, bridging the gap between web technologies and offline mobile deployment.
+
+## Workflow
+
+1. Start a new design.
+2. Enter or identify your location.
+3. Select your climate/environment parameters.
+4. Define your shelter requirements (occupants, duration).
+5. Configure shelter geometry, materials, insulation, openings, and orientation.
+6. Visualize the shelter in real-time 3D.
+7. Run the thermal analysis to compute the 24-hour thermal profile.
+8. Compare configurations and explore optimized alternatives.
+9. Apply or save the best-performing design.
+10. Generate and save an offline HTML design report.
+
+## Project Structure
+
+```text
+citadel/
+├── android/               # Capacitor Android project files
+├── public/                # Static assets (images, icons)
+├── src/
+│   ├── assets/            # Fonts and media
+│   ├── components/        # React UI components (3D, dashboard, onboarding, results)
+│   ├── context/           # React Context (Shelter Context & State Management)
+│   ├── data/              # Static climate and material profiles
+│   ├── engine/            # Core TypeScript physics and optimization logic
+│   ├── types/             # Global TypeScript definitions
+│   ├── App.tsx            # Main application root
+│   └── main.tsx           # Entry point
+├── capacitor.config.ts    # Capacitor configuration
+├── package.json           # Project dependencies and scripts
+└── vite.config.ts         # Vite build and PWA configuration
+```
+
+## Installation
+
+To run the project locally, ensure you have Node.js installed.
+
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+3. **Build for Production:**
+   ```bash
+   npm run build
+   ```
+
+## Android Build
+
+CITADEL uses Capacitor to package the web application as a native Android application.
+
+1. **Build the Web App:**
+   ```bash
+   npm run build
+   ```
+2. **Sync with Capacitor:**
+   ```bash
+   npx cap sync android
+   ```
+3. **Build the Android APK:**
+   ```bash
+   cd android
+   ./gradlew assembleDebug
+   ```
+   *The generated APK will be located at: `android/app/build/outputs/apk/debug/app-debug.apk`*
+
+## Validation
+
+The current physics engine provides a generalized architectural estimate suitable for comparative design iteration. 
+
+**Note:** ANSYS (or similar high-fidelity CFD/FEA software) is intended as an independent validation environment in broader structural engineering workflows and is **not** required for normal application execution. CITADEL currently runs as a standalone tool.
+
+## Current Status
+
+### Implemented
+- Local offline React application and Android APK.
+- 3D parametric visualization of shelters.
+- TypeScript-based 1D RC thermal physics engine.
+- Generative optimization algorithms for alternative designs.
+- LocalStorage design persistence and offline HTML report generation.
+
+### In Progress / Integration Stage
+- Machine learning model acceleration (XGBoost) for bypassing RC network calculations.
+- Live API-based weather data ingestion (currently relies on static bundled regional profiles).
+
+### Future Scope
+- Integration with high-fidelity thermal validation datasets.
+- Expanded global granular climate datasets.
+- Advanced computational fluid dynamics (CFD) for localized wind behavior.
+
+## SIH Information
+
+- **Problem Statement ID:** SIH26051
+- **Organization:** DRDO – Department of Defence R&D
+- **Category:** Software
+- **Theme:** Miscellaneous
+- **Team:** The Parallax
+
+## Disclaimer / Model Limitations
+
+The thermal outputs provided by CITADEL are software-model estimates based on simplified 1D resistance-capacitance physics. While highly effective for comparative parametric design, the results should be validated against higher-fidelity engineering simulation tools or physical experimental measurements before real-world physical deployment. CITADEL makes no certified engineering guarantees regarding structural integrity or life-safety parameters.
